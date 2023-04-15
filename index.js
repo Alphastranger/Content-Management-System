@@ -35,7 +35,17 @@ const checklist = function (){
                 err ? console.error(err) : console.log(results)
             }
         } else if (data === 'Add a department'){
-            db.query('SELECT')
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'addDepartment',
+                    message: 'What is the name of the department?'
+                }
+            ]).then((data) =>{
+                db.query(`INSERT INTO department(name)VALUES('${data.addDepartment}')`), (err, results) =>{
+                    err ? console.error(err) : console.log(results)
+                }
+            })
         }
     })
 }

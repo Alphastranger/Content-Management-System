@@ -1,6 +1,7 @@
 DROP DATABASE IF EXISTS library_db;
 CREATE DATABASE library_db;
 USE library_db;
+
 CREATE TABLE department{
 id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
  name VARCHAR(30)
