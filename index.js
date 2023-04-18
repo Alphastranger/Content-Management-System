@@ -26,7 +26,7 @@ const checklist = function (){
         if (data.firstCheck === 'View all departments') {
             db.query('SELECT * FROM department;', (err, results)=>{
                 err ? console.error(err) : console.table(results)
-            })
+            });
         } else if (data.firstCheck === 'View all roles'){
             db.query('SELECT * FROM role;', (err, results) => {
                 err ? console.error(err) : console.table(results)
@@ -96,15 +96,21 @@ const checklist = function (){
                 }
             })
         } else if (data.firstCheck === 'Update an employee role'){
-            db.query(`SELECT first_name, last_name FROM employee GROUP BY employee.id`, (err, results)=>{ if (err){
+            db.query(`SELECT first_name, last_name, id FROM employee GROUP BY employee.id`, (err, results)=>{ if (err){
                 console.error(err)
             }else {
+                console.log(results)
+                console.log(JSON.stringify(results).replace("first_name:"," ").trim())
             for(i=0; i<=results.length; i++){
+                const empName = results[i]
+                console.log(empName)
+            }
                 inquirer.prompt([
-                   { type: 'list',
+                   { 
+                   type: 'list',
                    name: 'selectEmployee',
                    message: 'Select an employee to update',
-                   choices: [results[i]]
+                   choices: ['John Doe', 'Mike Chan', 'Ashley Rodriguez', 'Kevin Tupik', 'Kunal Singh']
                 }, {
                     type: 'list',
                     name: 'updateRole',
@@ -112,13 +118,12 @@ const checklist = function (){
                     choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead', 'Lawyer', 'Customer Service']
                 }
                 ]) .then((data)=>{
-                    db.query(`UPDATE employee SET role_title = ${data.updateRole} WHERE employee first_name AND last_name = ${data.selectEmployee}`)
+                    db.query(`UPDATE employee SET role_title = ${data.updateRole} WHERE employee first_name AND last_name = ${data.selectEmployee}`);
                 })
-
-            }
         }})
         } else if (data.firstCheck === 'Quit'){
-            return
+            console.log('quitting time')
+            return;
         }
     })
 }
