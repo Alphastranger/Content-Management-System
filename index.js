@@ -25,10 +25,10 @@ const checklist = function (){
     .then((data) => {
         if (data.firstCheck === 'View all departments') {
             db.query('SELECT * FROM department;', (err, results)=>{
-                err ? console.error(err) : console.table([results])
+                err ? console.error(err) : console.table(results)
             })
         } else if (data.firstCheck === 'View all roles'){
-            db.query('SELECT * FROM roles;', (err, results) => {
+            db.query('SELECT * FROM role;', (err, results) => {
                 err ? console.error(err) : console.table(results)
             })
         } else if (data.firstCheck === 'View all employees'){
