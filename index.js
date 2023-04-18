@@ -24,15 +24,15 @@ const checklist = function (){
     .then((data) => {
         if (data === 'View all departments') {
             db.query('SELECT * FROM department;', (err, results)=>{
-                err ? console.error(err) : console.log(results)
+                err ? console.error(err) : console.table(results)
             })
         } else if (data === 'View all roles'){
             db.query('SELECT * FROM roles;', (err, results) => {
-                err ? console.error(err) : console.log(results)
+                err ? console.error(err) : console.table(results)
             })
         } else if (data === 'View all employees'){
             db.query('SELECT * FROM employee;', (err, results) => {
-                err ? console.error(err) : console.log(results)
+                err ? console.error(err) : console.table(results)
             })
         } else if (data === 'Add a department'){
             inquirer.prompt([
@@ -43,7 +43,7 @@ const checklist = function (){
                 }
             ]).then((data) =>{
                 db.query(`INSERT INTO department(name)VALUES('${data.addDepartment}');`), (err, results) =>{
-                    err ? console.error(err) : console.log(results)
+                    err ? console.error(err) : console.table(results)
                 }
             })
         } else if (data === 'Add a role') {
@@ -65,7 +65,7 @@ const checklist = function (){
             
             ]).then((data) =>{
                 db.query(`INSERT INTO role (title, salary, department)VALUES('${data.addRolename}', '${data.addRoleSalary})', '${data.addRoleDepartment}');`, (err, results) =>{
-                    err ? console.error(err) : console.log(results)
+                    err ? console.error(err) : console.table(results)
                 })
             })
         } else if (data === 'Add an employee'){
@@ -91,9 +91,30 @@ const checklist = function (){
                 }
             ]).then((data) =>{
                 db.query(`INSERT INTO employee(first_name, last_name, role_title, manager_name)VALUES('${data.employeeFirst}', '${data.employeeLast}', '${data.employeeRole}', '${data.employeeManager}');`), (err, results) =>{
-                    err ? console.error(err) : console.log(results)
+                    err ? console.error(err) : console.table(results)
                 }
             })
+        } else if (data === 'Update an employee role'){
+            const empLength = db.query(`SELECT first_name, last_name FROM employee WHERE employee_id>0`)
+            for(i=0; i<=empLength.length; i++){
+                inquirer.prompt([
+                   { type: 'list',
+                   name: 'selectEmployee',
+                   message: 'Select an employee to update',
+                   choices: [empLength[i]]
+                }, {
+                    type: 'list',
+                    name: 'updateRole',
+                    message: 'Select an updated role',
+                    choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead', 'Lawyer', 'Customer Service']
+                }
+                ]) .then((data)=>{
+                    db.query(`UPDATE employee SET role_title = ${data.updateRole} WHERE employee first_name AND last_name = ${data.selectEmployee}`)
+                })
+
+            }
+        } else if (data === 'Quit'){
+            return
         }
     })
 }
