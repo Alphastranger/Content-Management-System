@@ -42,7 +42,7 @@ const checklist = function (){
                     message: 'What is the name of the department?'
                 }
             ]).then((data) =>{
-                db.query(`INSERT INTO department(name)VALUES('${data.addDepartment}');`), (err, results) =>{
+                db.query(`INSERT INTO department(department)VALUES('${data.addDepartment}');`), (err, results) =>{
                     err ? console.error(err) : console.table(results)
                 }
             })
@@ -95,13 +95,15 @@ const checklist = function (){
                 }
             })
         } else if (data === 'Update an employee role'){
-            const empLength = db.query(`SELECT first_name, last_name FROM employee WHERE employee_id>0`)
-            for(i=0; i<=empLength.length; i++){
+            db.query(`SELECT first_name, last_name FROM employee GROUP BY employee.id`, (err, results)=>{ if (err){
+                console.error(err)
+            }else {
+            for(i=0; i<=results.length; i++){
                 inquirer.prompt([
                    { type: 'list',
                    name: 'selectEmployee',
                    message: 'Select an employee to update',
-                   choices: [empLength[i]]
+                   choices: [results[i]]
                 }, {
                     type: 'list',
                     name: 'updateRole',
@@ -113,6 +115,7 @@ const checklist = function (){
                 })
 
             }
+        }})
         } else if (data === 'Quit'){
             return
         }
