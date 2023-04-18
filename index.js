@@ -23,19 +23,19 @@ const checklist = function (){
         }
     ])
     .then((data) => {
-        if (data === 'View all departments') {
+        if (data.firstCheck === 'View all departments') {
             db.query('SELECT * FROM department;', (err, results)=>{
                 err ? console.error(err) : console.table([results])
             })
-        } else if (data === 'View all roles'){
+        } else if (data.firstCheck === 'View all roles'){
             db.query('SELECT * FROM roles;', (err, results) => {
                 err ? console.error(err) : console.table(results)
             })
-        } else if (data === 'View all employees'){
+        } else if (data.firstCheck === 'View all employees'){
             db.query('SELECT * FROM employee;', (err, results) => {
                 err ? console.error(err) : console.table(results)
             })
-        } else if (data === 'Add a department'){
+        } else if (data.firstCheck === 'Add a department'){
             inquirer.prompt([
                 {
                     type: 'input',
@@ -47,7 +47,7 @@ const checklist = function (){
                     err ? console.error(err) : console.table(results)
                 }
             })
-        } else if (data === 'Add a role') {
+        } else if (data.firstCheck === 'Add a role') {
             inquirer.prompt([
                 {
                     type: 'input',
@@ -69,7 +69,7 @@ const checklist = function (){
                     err ? console.error(err) : console.table(results)
                 })
             })
-        } else if (data === 'Add an employee'){
+        } else if (data.firstCheck === 'Add an employee'){
             inquirer.prompt([
                 {
                     type: 'input',
@@ -95,7 +95,7 @@ const checklist = function (){
                     err ? console.error(err) : console.table(results)
                 }
             })
-        } else if (data === 'Update an employee role'){
+        } else if (data.firstCheck === 'Update an employee role'){
             db.query(`SELECT first_name, last_name FROM employee GROUP BY employee.id`, (err, results)=>{ if (err){
                 console.error(err)
             }else {
@@ -117,7 +117,7 @@ const checklist = function (){
 
             }
         }})
-        } else if (data === 'Quit'){
+        } else if (data.firstCheck === 'Quit'){
             return
         }
     })
