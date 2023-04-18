@@ -1,12 +1,13 @@
 const inquirer = require('inquirer')
 const mysql = require('mysql2')
-const cTable = require('console.table')
+const cTable = require('console.table');
+require('dotenv').config();
 
 const db = mysql.createConnection(
     {
         host: 'localhost',
-        user: DB_USER,
-        password: DB_PASSWORD,
+        user: 'root',
+        password: 'Joeyfly1!',
         database: 'library_db'
     },
     console.log(`Connected to the library database.`)
@@ -24,7 +25,7 @@ const checklist = function (){
     .then((data) => {
         if (data === 'View all departments') {
             db.query('SELECT * FROM department;', (err, results)=>{
-                err ? console.error(err) : console.table(results)
+                err ? console.error(err) : console.table([results])
             })
         } else if (data === 'View all roles'){
             db.query('SELECT * FROM roles;', (err, results) => {

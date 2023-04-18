@@ -7,13 +7,13 @@ id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 department VARCHAR(30)
 );
 CREATE TABLE role (
- id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
- title VARCHAR(30),
- salary DECIMAL,
- department VARCHAR(30),
- department_id INT
- FOREIGN KEY (department_id)
- REFERENCES department(id)
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(30),
+salary DECIMAL,
+department VARCHAR(30),
+department_id INT,
+FOREIGN KEY (department_id)
+REFERENCES department(id)
 );
 CREATE TABLE employee (
 id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
