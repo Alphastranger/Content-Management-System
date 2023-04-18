@@ -65,7 +65,7 @@ const checklist = function (){
                 }
             
             ]).then((data) =>{
-                db.query(`INSERT INTO role (title, salary, department)VALUES('${data.addRolename}', '${data.addRoleSalary})', '${data.addRoleDepartment}');`, (err, results) =>{
+                db.query(`INSERT INTO role (title, salary, department, department_id)VALUES('${data.addRolename}', ${data.addRoleSalary}, '${data.addRoleDepartment}', NULL);`, (err, results) =>{
                     err ? console.error(err) : console.table(results)
                 })
             })
@@ -121,7 +121,7 @@ const checklist = function (){
                 })
         }})
         } else if (data.firstCheck === 'Quit'){
-            console.log('quitting time')
+            console.log('Quitting time')
             return;
         }
     })
